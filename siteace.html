@@ -63,6 +63,9 @@
 	<p>
 		{{description}}
 	</p>
+	<p>
+		Added On: {{moFormat createdOn 'ddd, DD MMM YYYY HH:MM'}} · Upvotes: {{upvotes}} · Downvotes: {{downvotes}}
+	</p>
 	{{isLoggedIn}}
 	{{#if currentUser}}
 		<a href="#" class="btn btn-default js-upvote">
