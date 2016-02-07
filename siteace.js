@@ -221,6 +221,19 @@ if (Meteor.isClient) {
 			$("#search").val('').focus();
 			$("#searchclear").hide();
 			Session.set("searchFilter", '');
+		},
+		"click .navbar-brand":function(event){
+			// remove all session data and clear all input file, go back to home page
+			Session.set("searchFilter", '');
+			Session.set("retrievedTitle", '');
+			Session.set("retrievedDescription", '');
+			Session.set("getMetasStatus", '');
+			$("#search").val('');
+			$("#url").val('');
+			$("#title").val('');
+			$("#description").val('');
+			$("#searchclear").hide();
+			$("#website_form").hide();
 		}
 	})
 }
