@@ -21,9 +21,12 @@
 
 
 <template name="website_form">
-	<a class="btn btn-default js-toggle-website-form" href="#">
-  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-	</a>
+	{{isLoggedIn}}
+	{{#if currentUser}}
+		<a class="btn btn-default js-toggle-website-form" href="#">
+	  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		</a>
+	{{/if}}
 	<div id="website_form" class="hidden_div">
 		<form class="js-save-website-form">
 		  <div class="form-group">
