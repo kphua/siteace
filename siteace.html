@@ -3,22 +3,38 @@
 </head>
 
 <body>
+
+</body>
+
+<template name="ApplicationLayout">
+  {{> yield "navbar"}}
+  {{> yield "main"}}
+</template>
+
+<template name="navbar">
 	<!-- navbar  - you will be putting the login functions here -->
 	<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Site Ace</a>
-      <p class="navbar-text navbar-right">
-        {{> loginButtons align="right"}}
-      </p>
-    </div>  <!-- / nav container -->
-  </nav>
+		<div class="container">
+			<a class="navbar-brand" href="#">Site Ace</a>
+			<p class="navbar-text navbar-right">
+				{{> loginButtons align="right"}}
+			</p>
+		</div>  <!-- / nav container -->
+	</nav>
+</template>
 
+<template name="websites">
 	<div class="container top-margin">
 		{{> website_form}}
 		{{> website_list}}
 	</div>
-</body>
+</template>
 
+<template name="website">
+	<div class="container top-margin">
+		{{> website_detail}}
+	</div>
+</template>
 
 <template name="website_form">
 	{{isLoggedIn}}
@@ -60,6 +76,7 @@
 <template name="website_item">
 <li>
 	<a href="{{url}}">{{title}}</a>
+	<a class="align-right" href="/website/{{_id}}">View Details</a>
 	<p>
 		{{description}}
 	</p>
@@ -77,4 +94,18 @@
 	{{/if}}
 	<!-- you will be putting your up and down vote buttons in here! -->
 </li>
+</template>
+
+<!-- template that displays details of a selected website -->
+<template name="website_detail">
+	<a href="/">Back</a>
+	<br />
+	<br />
+	<a href="{{url}}">{{title}}</a>
+	<p>
+		{{description}}
+	</p>
+	<p>
+		Added On: {{moFormat createdOn 'ddd, DD MMM YYYY HH:MM'}} · Upvotes: {{upvotes}} · Downvotes: {{downvotes}}
+	</p>
 </template>
