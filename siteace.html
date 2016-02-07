@@ -16,6 +16,16 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="#">Site Ace</a>
+			<form class="navbar-form navbar-left" role="search">
+				<div class="input-group">
+		      <input type="text" class="form-control" placeholder="Search for..." id="search">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default js-search-filter" type="button">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+		      </span>
+		    </div><!-- /input-group -->
+			</form>
 			<p class="navbar-text navbar-right">
 				{{> loginButtons align="right"}}
 			</p>
@@ -74,7 +84,7 @@
 
 <!-- template that displays several website items -->
 <template name="website_list">
-	<ol>
+	<ol class="list-group">
 	{{#each websites}}
 	{{>website_item}}
 	{{/each}}
@@ -83,43 +93,58 @@
 
 <!-- template that displays individual website entries -->
 <template name="website_item">
-<li>
-	<a href="{{url}}">{{title}}</a>
-	<a class="align-right" href="/website/{{_id}}">View Details</a>
-	<p>
-		{{description}}
-	</p>
-	<p>
-		Added On: {{moFormat createdOn 'ddd, DD MMM YYYY HH:MM'}} · Upvotes: {{upvotes}} · Downvotes: {{downvotes}}
-	</p>
-	{{isLoggedIn}}
-	{{#if currentUser}}
-		<a href="#" class="btn btn-default js-upvote">
-			<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-		</a>
-		<a href="#" class="btn btn-default js-downvote">
-			<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-		</a>
-	{{/if}}
-	<!-- you will be putting your up and down vote buttons in here! -->
+<li class="list-group-item">
+	<div class="row side-padding">
+		<a class="text-title" href="{{url}}">{{title}}</a>
+		<a class="btn btn-primary align-right" href="/website/{{_id}}">View Details</a>
+	</div>
+	<div class="row">
+		<div class="col-sm-9">
+			<p class="description-font">
+				{{description}}
+			</p>
+			<p class="light-text">
+				Added On: {{moFormat createdOn 'ddd, DD MMM YYYY HH:MM'}} ·
+				Upvotes: {{upvotes}} ·
+				Downvotes: {{downvotes}}
+			</p>
+		</div>
+		<div class="col-sm-3">
+			{{isLoggedIn}}
+			{{#if currentUser}}
+				<div class="align-right margin-top">
+					<a href="#" class="btn btn-default js-upvote btn-sm">
+						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+						<span class="icon-btn-text">upvote</span>
+					</a>
+					<a href="#" class="btn btn-default js-downvote btn-sm">
+						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+						<span class="icon-btn-text">downvote</span>
+					</a>
+				</div>
+			{{/if}}
+		</div>
+	</div>
 </li>
 </template>
 
 <!-- template that displays details of a selected website -->
 <template name="website_detail">
-	<a href="/">Back</a>
+	<a class="btn btn-default" href="/">Back</a>
 	<br />
 	<br />
-	<a href="{{url}}">{{title}}</a>
-	<p>
-		{{description}}
-	</p>
-	<p>
-		Added On: {{moFormat createdOn 'ddd, DD MMM YYYY HH:MM'}} · Upvotes: {{upvotes}} · Downvotes: {{downvotes}}
-	</p>
-	<p>
-		Comments
-	</p>
+	<div class="jumbotron">
+		<h1><a href="{{url}}">{{title}}</a></h1>
+		<p>{{description}}</p>
+		<p class="light-text">
+			Added On: {{moFormat createdOn 'ddd, DD MMM YYYY HH:MM'}} ·
+			Upvotes: {{upvotes}} ·
+			Downvotes: {{downvotes}}
+		</p>
+	</div>
+	<div class="page-header">
+		<h2>Comments</h2>
+	</div>
 	<p>
 		{{> comment_form}}
 	</p>
@@ -134,7 +159,7 @@
 <!-- template that displays individual comment of a selected website -->
 <template name="comment">
 	<div class="well">
-		<strong>{{username}}</strong>
+		<strong>{{username}}</strong><span class="message-date">{{moFromNow commentedOn}}</span>
 		<br />
 		{{message}}
 	</div>

@@ -10,3 +10,41 @@
 .align-right {
   float:right;
 }
+
+.margin-top {
+  margin-top: 25px;
+}
+
+.description-font {
+  font-size: 20px;
+}
+
+.icon-btn-text {
+  vertical-align: text-bottom;
+}
+
+.light-text {
+  color: #3E3E3E;
+}
+
+.side-padding {
+  padding: 5px 15px;
+}
+
+.text-title {
+  font-size: 24px;
+}
+
+.jumbotron p.light-text {
+  font-size: 15px;
+}
+
+.message-date {
+  color: #808080;
+  float: right;
+  font-size: 13px;
+}
+
+.well {
+  padding: 10px 15px;
+}

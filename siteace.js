@@ -51,6 +51,15 @@ if (Meteor.isClient) {
 	});
 
 	// helper function that returns all available comments
+	Template.website_detail.helpers({
+		comments:function(){
+			var website_id = this._id;
+			var comments = Websites.findOne({_id:this._id}).comments;
+			return _.sortBy(comments, 'commentedOn').reverse();
+		}
+	});
+
+	// helper function that returns username of comment
 	Template.comment.helpers({
 		username:function(){
 			// get email using user id
@@ -182,7 +191,9 @@ if (Meteor.isClient) {
 			website_id = this._id;
 
 			if (Meteor.user() && message) {
-				Websites.update({_id: website_id}, {$push: {comments: {message:message, user_id:Meteor.user()._id}}});
+				Websites.update({_id: website_id}, {$push: {comments:
+					{message:message, user_id:Meteor.user()._id, commentedOn:Date()}}
+				});
 
 				// Clear form
 				event.target.message.value = "";
