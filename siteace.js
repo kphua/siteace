@@ -59,6 +59,19 @@ if (Meteor.isClient) {
 		}
 	});
 
+	// helper function that returns automatic retrieval of url information
+	Template.website_form.helpers({
+		retrievedTitle:function(){
+			return Session.get("retrievedTitle");
+		},
+		retrievedDescription:function(){
+			return Session.get("retrievedDescription");
+		},
+		getMetasStatus:function(){
+			return Session.get("getMetasStatus");
+		}
+	});
+
 
 	/////
 	// template events 
@@ -105,6 +118,26 @@ if (Meteor.isClient) {
 	})
 
 	Template.website_form.events({
+		"keyup #url":function(event){
+			Session.set("retrievedTitle", '');
+			Session.set("retrievedDescription", '');
+			Session.set("getMetasStatus", '');
+		},
+		"click .js-get-metas":function(event){
+			Session.set("getMetasStatus", 'Retrieving fields ...');
+			var url = $("#url").val();
+			extractMeta(url, function (err, res) {
+				if (err) {
+					console.error('err while extracting metas', err);
+				} else {
+					Session.set("retrievedTitle", res.title);
+					Session.set("retrievedDescription", res.description);
+					if(res.title && res.description) {
+						Session.set("getMetasStatus", 'Retrieval Done.');
+					}
+				}
+			});
+		},
 		"click .js-toggle-website-form":function(event){
 			$("#website_form").toggle('slow');
 		}, 
