@@ -1,6 +1,6 @@
 # siteace
 A social website aggregator built on Meteor.
-
+It allows users to share, discuss and rank interesting webpages that they have found.
 
 This is the final assignment for the course "Introduction to Meteor.js Development" on Coursera. https://www.coursera.org/learn/meteor-development/
 
