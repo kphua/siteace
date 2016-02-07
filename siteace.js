@@ -46,7 +46,13 @@ if (Meteor.isClient) {
 	// helper function that returns all available websites
 	Template.website_list.helpers({
 		websites:function(){
-			return Websites.find({}, {sort:{upvotes:-1, createdOn:-1}});
+			if (Session.get("searchFilter")) {  // they set a filter
+				var searchText = Session.get("searchFilter");
+				return Websites.find({$or: [ {"title" : {$regex : searchText, $options: "i"}}, {"description" : {$regex : searchText, $options: "i"}} ]});
+			}
+			else {
+				return Websites.find({}, {sort:{upvotes:-1, createdOn:-1}});
+			}
 		}
 	});
 
@@ -202,6 +208,21 @@ if (Meteor.isClient) {
 			return false;// stop the form submit from reloading the page
 		}
 	});
+
+	Template.navbar.events({
+		"click .js-search-filter":function(event){
+			var searchText = $("#search").val();
+			Session.set("searchFilter", searchText);
+		},
+		"keyup #search":function(event){
+			$("#searchclear").show();
+		},
+		"click .searchclear":function(event){
+			$("#search").val('').focus();
+			$("#searchclear").hide();
+			Session.set("searchFilter", '');
+		}
+	})
 }
 
 
