@@ -32,6 +32,14 @@ if (Meteor.isClient) {
 	});
 
 	/////
+	// accounts config
+	/////
+
+	Accounts.ui.config({
+	  passwordSignupFields: "USERNAME_AND_EMAIL"
+	});
+
+	/////
 	// template helpers
 	/////
 
@@ -39,6 +47,15 @@ if (Meteor.isClient) {
 	Template.website_list.helpers({
 		websites:function(){
 			return Websites.find({}, {sort:{upvotes:-1, createdOn:-1}});
+		}
+	});
+
+	// helper function that returns all available comments
+	Template.comment.helpers({
+		username:function(){
+			// get email using user id
+			var user = Meteor.users.findOne({_id:this.user_id});
+			return user.username;
 		}
 	});
 
@@ -113,13 +130,32 @@ if (Meteor.isClient) {
             createdOn:new Date(),
             createdBy: Meteor.user()._id,
 						upvotes: 0,
-						downvotes: 0
+						downvotes: 0,
+						comments: []
         });
 			}
       $("#website_form").toggle('slow');
 
 			return false;// stop the form submit from reloading the page
 
+		}
+	});
+
+	Template.comment_form.events({
+		"submit .js-save-comment-form":function(event){
+			//  save comment
+			var message, website_id;
+			message = event.target.message.value;
+			website_id = this._id;
+
+			if (Meteor.user() && message) {
+				Websites.update({_id: website_id}, {$push: {comments: {message:message, user_id:Meteor.user()._id}}});
+
+				// Clear form
+				event.target.message.value = "";
+			}
+
+			return false;// stop the form submit from reloading the page
 		}
 	});
 }
@@ -137,7 +173,8 @@ if (Meteor.isServer) {
     		description:"This is where this course was developed.",
     		createdOn:new Date(),
 				upvotes: 0,
-				downvotes: 0
+				downvotes: 0,
+				comments: []
     	});
     	 Websites.insert({
     		title:"University of London",
@@ -145,7 +182,8 @@ if (Meteor.isServer) {
     		description:"University of London International Programme.",
     		createdOn:new Date(),
 				upvotes: 0,
-				downvotes: 0
+				downvotes: 0,
+				comments: []
     	});
     	 Websites.insert({
     		title:"Coursera",
@@ -153,7 +191,8 @@ if (Meteor.isServer) {
     		description:"Universal access to the world’s best education.",
     		createdOn:new Date(),
 				upvotes: 0,
-				downvotes: 0
+				downvotes: 0,
+				comments: []
     	});
     	Websites.insert({
     		title:"Google",
@@ -161,7 +200,8 @@ if (Meteor.isServer) {
     		description:"Popular search engine.",
     		createdOn:new Date(),
 				upvotes: 0,
-				downvotes: 0
+				downvotes: 0,
+				comments: []
     	});
     }
   });

@@ -108,4 +108,42 @@
 	<p>
 		Added On: {{moFormat createdOn 'ddd, DD MMM YYYY HH:MM'}} · Upvotes: {{upvotes}} · Downvotes: {{downvotes}}
 	</p>
+	<p>
+		Comments
+	</p>
+	<p>
+		{{> comment_form}}
+	</p>
+
+	{{#each comments}}
+	{{> comment}}
+	{{else}}
+  	<p>No comments yet.</p>
+	{{/each}}
+</template>
+
+<!-- template that displays individual comment of a selected website -->
+<template name="comment">
+	<div class="well">
+		<strong>{{username}}</strong>
+		<br />
+		{{message}}
+	</div>
+</template>
+
+<template name="comment_form">
+	{{isLoggedIn}}
+	{{#if currentUser}}
+		<div id="comment_form">
+			<form class="js-save-comment-form">
+				<div class="input-group">
+		      <input type="text" class="form-control" placeholder="Write a comment..." id="message">
+		      <span class="input-group-btn">
+		        <button type="submit" class="btn btn-success js-">Go!</button>
+		      </span>
+		    </div><!-- /input-group -->
+			</form>
+		</div>
+		<br />
+	{{/if}}
 </template>
