@@ -4,17 +4,16 @@
 
 <body>
 	<!-- navbar  - you will be putting the login functions here -->
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <a class="navbar-brand" href="#">
-	        Site Ace
-	      </a>
-	    </div>
-	  </div>
-	</nav>
+	<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Site Ace</a>
+      <p class="navbar-text navbar-right">
+        {{> loginButtons align="right"}}
+      </p>
+    </div>  <!-- / nav container -->
+  </nav>
 
-	<div class="container">
+	<div class="container top-margin">
 		{{> website_form}}
 		{{> website_list}}
 	</div>
