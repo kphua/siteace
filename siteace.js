@@ -24,7 +24,16 @@ if (Meteor.isClient) {
 			// (this is the data context for the template)
 			var website_id = this._id;
 			console.log("Up voting website with id "+website_id);
+
 			// put the code in here to add a vote to a website!
+			// retrieve previous upvotes value
+			var website = Websites.findOne({_id:website_id});
+			var upvotes = website.upvotes;
+			upvotes++;	// increase vote by one
+
+			if (Meteor.user()) {
+				Websites.update({_id:website_id}, {$set: {upvotes:upvotes}});
+			}
 
 			return false;// prevent the button from reloading the page
 		}, 
@@ -36,6 +45,14 @@ if (Meteor.isClient) {
 			console.log("Down voting website with id "+website_id);
 
 			// put the code in here to remove a vote from a website!
+			// retrieve previous upvotes value
+			var website = Websites.findOne({_id:website_id});
+			var downvotes = website.downvotes;
+			downvotes++;	// increase vote by one
+
+			if (Meteor.user()) {
+				Websites.update({_id:website_id}, {$set: {downvotes:downvotes}});
+			}
 
 			return false;// prevent the button from reloading the page
 		}
@@ -65,7 +82,9 @@ if (Meteor.isClient) {
 						url: url,
 						description: description,
             createdOn:new Date(),
-            createdBy: Meteor.user()._id
+            createdBy: Meteor.user()._id,
+						upvotes: 0,
+						downvotes: 0
         });
 			}
       $("#website_form").toggle('slow');
@@ -84,28 +103,36 @@ if (Meteor.isServer) {
     if (!Websites.findOne()){
     	console.log("No websites yet. Creating starter data.");
     	  Websites.insert({
-    		title:"Goldsmiths Computing Department", 
-    		url:"http://www.gold.ac.uk/computing/", 
-    		description:"This is where this course was developed.", 
-    		createdOn:new Date()
+    		title:"Goldsmiths Computing Department",
+    		url:"http://www.gold.ac.uk/computing/",
+    		description:"This is where this course was developed.",
+    		createdOn:new Date(),
+				upvotes: 0,
+				downvotes: 0
     	});
     	 Websites.insert({
-    		title:"University of London", 
-    		url:"http://www.londoninternational.ac.uk/courses/undergraduate/goldsmiths/bsc-creative-computing-bsc-diploma-work-entry-route", 
-    		description:"University of London International Programme.", 
-    		createdOn:new Date()
+    		title:"University of London",
+    		url:"http://www.londoninternational.ac.uk/courses/undergraduate/goldsmiths/bsc-creative-computing-bsc-diploma-work-entry-route",
+    		description:"University of London International Programme.",
+    		createdOn:new Date(),
+				upvotes: 0,
+				downvotes: 0
     	});
     	 Websites.insert({
-    		title:"Coursera", 
-    		url:"http://www.coursera.org", 
-    		description:"Universal access to the world’s best education.", 
-    		createdOn:new Date()
+    		title:"Coursera",
+    		url:"http://www.coursera.org",
+    		description:"Universal access to the world’s best education.",
+    		createdOn:new Date(),
+				upvotes: 0,
+				downvotes: 0
     	});
     	Websites.insert({
-    		title:"Google", 
-    		url:"http://www.google.com", 
-    		description:"Popular search engine.", 
-    		createdOn:new Date()
+    		title:"Google",
+    		url:"http://www.google.com",
+    		description:"Popular search engine.",
+    		createdOn:new Date(),
+				upvotes: 0,
+				downvotes: 0
     	});
     }
   });
